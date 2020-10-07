@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
 
-const Footer = ({val, handleText}) => {
+const Footer = ({val, handleText, addNote}) => {
     const handleChange = (value) => handleText(value)
 
     return (
@@ -13,6 +13,7 @@ const Footer = ({val, handleText}) => {
                 placeholderTextColor='white'
                 underlineColorAndroid='transparent'
                 onChangeText={handleChange}
+                onSubmitEditing={() => addNote(val)}
             />
         </View>
     )

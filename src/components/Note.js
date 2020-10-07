@@ -1,8 +1,8 @@
-import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { FontAwesome } from '@expo/vector-icons'; 
+import React, { useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
+import { FontAwesome, EvilIcons } from '@expo/vector-icons'; 
 
-const Note = ({ data, deleteNote }) => {
+const Note = ({ data, deleteNote, loadNote }) => {
     const { text, date, id } = data
     return (
         <View style={note} key={id}>
@@ -13,6 +13,12 @@ const Note = ({ data, deleteNote }) => {
                 style={noteDelete}
             >
                 <FontAwesome name='trash' size={32} color='#e91e63' />
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => loadNote(id)}
+                style={noteEdit}
+            >
+                <EvilIcons name="pencil" size={32} color="#2980b9" />
             </TouchableOpacity>
         </View>
     )
@@ -45,7 +51,16 @@ const styles = StyleSheet.create({
     },
     noteDeleteText: {
         color: '#fff'
+    },
+    noteEdit: {
+        position: 'absolute',
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 10,
+        top: 10,
+        bottom: 10,
+        right: 50
     }
 })
 
-const { note, noteText, noteDelete, noteDeleteText } = styles
+const { note, noteText, noteDelete, noteEdit } = styles
