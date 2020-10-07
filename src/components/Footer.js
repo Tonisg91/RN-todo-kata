@@ -1,19 +1,21 @@
 import React from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
 
-const Footer = ({val, handleText, addNote}) => {
-    const handleChange = (value) => handleText(value)
-
+const Footer = ({data, handleText, addNote}) => {
+    const handleChange = (value) => handleText({
+        ...data,
+        text: value
+    })
     return (
         <View style={footer}>
             <TextInput
-                value={val}
+                value={data.text}
                 style={input}
                 placeholder='Enter a new task...'
                 placeholderTextColor='white'
                 underlineColorAndroid='transparent'
                 onChangeText={handleChange}
-                onSubmitEditing={() => addNote(val)}
+                onSubmitEditing={() => addNote()}
             />
         </View>
     )
