@@ -1,11 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
-const AddButton = ({ addNote }) => {
+const AddButton = ({ onPress }) => {
     return (
         <TouchableOpacity 
             style={addButton}
-            onPress={() => addNote()}
+            onPress={onPress}
         >
             <Text style={addButtonText}> + </Text>
         </TouchableOpacity>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         zIndex: 11,
         right: 40,
-        bottom: 90,
+        bottom: 45,
         elevation: 8
     },
     addButtonText: {

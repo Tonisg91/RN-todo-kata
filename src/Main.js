@@ -1,79 +1,38 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { storeTask, getData } from './asyncStorage'
-import { Header, TaskList, Footer, AddButton } from './components/index'
+import { connect } from 'react-redux'
+import { Header, TaskList, AddButton, AddTaskModal } from './components/index'
+import { complete } from './reducers/todos'
 
-import newDate from './dateResource'
+const Main = ({ data, complete }) => {
+    const [displayModal, setDisplayModal] = useState(false)
 
-const Main = () => {
-    const initialNoteState = {
-        id: '',
-        text: '',
-        date: ''
-    }
-    const [noteList, setNoteList] = useState([])
-    const [newNote, setNewNote] = useState(initialNoteState)
-    const [isEditting, setIsEditting] = useState(false)
-    const [edittingNote, setEdittingNote] = useState({})
-
-    const getStoredData = () => {
-        getData('@todoTasks', []).then(setNoteList)
-    }
-
-    useEffect(() => {
-        getStoredData()
-    }, [noteList])
-
-    const deleteNote = id => {
-        const updatedTasks = [...noteList].filter(el => el.id !== id)
-        storeTask(updatedTasks)
-    }
-
-    const addNote = (text = newNote.text) => {
-        const noteToAdd = {
-            id: Math.random().toString(36),
-            text: newNote.text,
-            date: newDate()
-        }
-        
-        storeTask([...noteList, noteToAdd])
-        setNewNote(initialNoteState)
-    }
-
-    const editNote = (text) => {
-        const newArray = noteList.filter(x => {
-            if (x.id === id) {
-                x = edittingNote
-                return x
-            }
-            return x
-        })
-        setIsEditting(false)
-    }
-
-    const loadExistentNote = async (id) => {
-        setIsEditting(true)
-        const note = await noteList.find(x => x.id === id)
-        setEdittingNote({...note})
-        setNoteText(edittingNote.text)
-    }
+    const openForm = () => setDisplayModal(!displayModal)
 
     return (
         <View style={container} >
             <Header />
             <TaskList 
-                data={noteList} 
-                deleteNote={deleteNote}
-                loadNote={loadExistentNote}
-                editNote={editNote}
+                data={[...data]}
+                complete={complete}
             />
-            <Footer handleText={setNewNote} data={newNote} addNote={addNote}/>
-            <AddButton addNote={addNote}/>
+            <AddButton onPress={openForm}/>
+            <AddTaskModal display={displayModal} onPress={openForm}/>
         </View>
     )
 }
 
-export default Main
+const mapStateToProps = state => {
+    return {
+        data: state.todos
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    complete: (_id) => dispatch(complete(_id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
 
 const styles = StyleSheet.create({
     container: {

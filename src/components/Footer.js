@@ -9,7 +9,7 @@ const Footer = ({data, handleText, addNote}) => {
     return (
         <View style={footer}>
             <TextInput
-                value={data.text}
+                //value={data.text}
                 style={input}
                 placeholder='Enter a new task...'
                 placeholderTextColor='white'

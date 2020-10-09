@@ -1,24 +1,36 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FontAwesome, EvilIcons } from '@expo/vector-icons'; 
 
-const Note = ({ data, deleteNote, loadNote }) => {
-    const { text, date, id } = data
+const Note = ({data, actions: {complete}}) => {
+    const { title, _id, color, completed } = data
+
+    const containerStyle = !completed ? container : [container, containerCompleted]
+    const noteStyle = !completed ? noteTitle : [noteCompleted, noteTitle]
+    const iconName = !completed ? 'check-square' : 'rotate-left'
+
+
     return (
-        <View style={note} key={id}>
-            <Text style={noteText}>{text}</Text>
-            <Text style={noteText}>{date}</Text>
-            <TouchableOpacity
-                onPress={() => deleteNote(id)}
-                style={noteDelete}
+        <View style={containerStyle} key={_id}>
+            <Text 
+                style={[
+                    noteStyle, 
+                    {borderLeftColor: color}
+                ]}
             >
-                <FontAwesome name='trash' size={32} color='#e91e63' />
-            </TouchableOpacity>
+                {title}
+            </Text>
             <TouchableOpacity
-                onPress={() => loadNote(id)}
+                onPress={() => console.log('Editing', title)}
                 style={noteEdit}
             >
-                <EvilIcons name="pencil" size={32} color="#2980b9" />
+                <EvilIcons name="pencil" size={42} color="#2980b9" />
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => complete(_id)}
+                style={noteDelete}
+            >
+                <FontAwesome name={iconName} size={32} color='#e91e63' />
             </TouchableOpacity>
         </View>
     )
@@ -27,18 +39,21 @@ const Note = ({ data, deleteNote, loadNote }) => {
 export default Note
 
 const styles = StyleSheet.create({
-    note: {
+    container: {
         position: 'relative',
         padding: 20,
         paddingRight: 100,
         borderBottomWidth: 2,
-        borderBottomColor: '#ededed'
+        borderBottomColor: '#ededed',
     },
-    noteText: {
+    containerCompleted: {
+        backgroundColor: '#f3f3f3'
+    },
+    noteTitle: {
         paddingLeft: 20,
-        borderLeftColor: '#2980b9',
         borderLeftWidth: 10,
-        color: 'black'
+        color: 'black',
+        fontSize: 18,
     },
     noteDelete: {
         position: 'absolute',
@@ -60,7 +75,10 @@ const styles = StyleSheet.create({
         top: 10,
         bottom: 10,
         right: 50
+    },
+    noteCompleted: {
+        textDecorationLine: 'line-through',
     }
 })
 
-const { note, noteText, noteDelete, noteEdit } = styles
+const { container, containerCompleted, noteTitle, noteDelete, noteEdit, noteCompleted } = styles
