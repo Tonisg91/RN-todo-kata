@@ -4,22 +4,28 @@ const initialState = [
         completed: false,
         desc: 'Description 1',
         title: 'Comprar desayuno',
-        color: 'blue'
+        selectedColor: 'blue'
     },
     {
         _id: '2',
         completed: false,
         desc: 'Description 2',
         title: 'Limpiar coche',
-        color: 'green'
+        selectedColor: 'green'
     }
 ]
 
 const COMPLETE = 'COMPLETE'
+const ADD_TASK = 'ADD_TASK'
 
 export const complete = id => ({
     type: COMPLETE,
     payload: id
+})
+
+export const submit = data => ({
+    type: ADD_TASK,
+    payload: data
 })
 
 export default (state = initialState, action) => {
@@ -30,6 +36,8 @@ export default (state = initialState, action) => {
                 { ...x, completed: !x.completed} 
                 : x))
             return updatedState
+        case ADD_TASK:
+            return [...state, action.payload]
         default:
             return state
     }

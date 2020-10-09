@@ -1,21 +1,52 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Button, StyleSheet, TextInput, View } from 'react-native'
+import ColorSelector from './ColorSelector'
+import useForm from '../../hooks/useForm'
 
-const Form = () => {
+const Form = ({ onPress, submit }) => {
+    const initialState = {
+        _id: Math.round().toString(36),
+        title: '',
+        desc: '',
+        completed: false,
+        selectedColor: 'blue'
+    }
+    const onSubmit = values => {
+        submit(values)
+        onPress()
+    }
+    const { subscribe, inputs, handleSubmit } = useForm(initialState, onSubmit)
+    
+    const colors = ['blue', 'green', 'gold', 'orange', 'red']
+    const changeColor = (color) => {
+        subscribe('selectedColor')(color)
+    }
+    
     return (
         <View style={container}>
             <View>
                 <TextInput
                     style={input}
                     placeholder='Title'
+                    value={inputs.title}
+                    onChangeText={subscribe('title')}
                 />
                 <TextInput
                     style={input}
+                    value={inputs.desc}
                     placeholder='Description'
+                    onChangeText={subscribe('desc')}
+                />
+                <ColorSelector 
+                    colors={colors}
+                    selectedColor={colors.indexOf(inputs.selectedColor)}
+                    onPress={changeColor}
                 />
             </View>
             <Button 
                 title="SAVE"
+                onPress={handleSubmit}
             />
         </View>
     )
@@ -36,7 +67,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 10,
         borderRadius: 5,
-        backgroundColor: 'lightgray',
+        backgroundColor: 'rgba(0,0,0, .05)',
         fontSize: 18
     }
 })

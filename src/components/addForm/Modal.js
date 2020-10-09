@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Modal } from 'react-native'
 import Form from './Form'
 
-const AddForm = ({display, onPress}) => {
+const AddForm = ({display, onPress, submit}) => {
     return (
         <Modal
             visible={display}
@@ -14,7 +14,10 @@ const AddForm = ({display, onPress}) => {
             >
                 <View style={content}>
                     <Text style={title}>Add Task</Text>
-                    <Form onPress={onPress}/>
+                    <Form 
+                        onPress={onPress}
+                        submit={submit}
+                    />
                 </View>
             </View>
         </Modal>

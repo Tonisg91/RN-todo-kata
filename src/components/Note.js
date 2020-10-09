@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FontAwesome, EvilIcons } from '@expo/vector-icons'; 
 
 const Note = ({data, actions: {complete}}) => {
-    const { title, _id, color, completed } = data
+    const { title, _id, selectedColor, completed } = data
 
     const containerStyle = !completed ? container : [container, containerCompleted]
     const noteStyle = !completed ? noteTitle : [noteCompleted, noteTitle]
@@ -15,7 +15,7 @@ const Note = ({data, actions: {complete}}) => {
             <Text 
                 style={[
                     noteStyle, 
-                    {borderLeftColor: color}
+                    {borderLeftColor: selectedColor}
                 ]}
             >
                 {title}
