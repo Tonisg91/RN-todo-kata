@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         borderBottomWidth: 10,
         borderBottomColor: '#ddd',
-        paddingTop: 25
+        paddingTop: 15
     },
     headerText: {
         color: '#fff',

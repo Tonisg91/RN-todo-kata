@@ -1,12 +1,11 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Button, StyleSheet, TextInput, View } from 'react-native'
 import ColorSelector from './ColorSelector'
 import useForm from '../../hooks/useForm'
 
-const Form = ({ onPress, submit }) => {
-    const initialState = {
-        _id: Math.round().toString(36),
+const Form = ({ onPress, submit, data }) => {
+    const initialState = data || {
+        _id: Math.random().toString(36),
         title: '',
         desc: '',
         completed: false,

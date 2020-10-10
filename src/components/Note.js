@@ -2,12 +2,30 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FontAwesome, EvilIcons } from '@expo/vector-icons'; 
 
-const Note = ({data, actions: {complete}}) => {
+const Note = ({data, actions: {complete, removeItem, editItem}}) => {
     const { title, _id, selectedColor, completed } = data
 
     const containerStyle = !completed ? container : [container, containerCompleted]
     const noteStyle = !completed ? noteTitle : [noteCompleted, noteTitle]
-    const iconName = !completed ? 'check-square' : 'rotate-left'
+
+    const actionButton = !completed ? 
+        (   
+            <TouchableOpacity
+                onPress={() => complete(_id)}
+                style={noteDelete}
+            >
+                <FontAwesome name='check-square' size={32} color='#e91e63' />
+            </TouchableOpacity>
+        )
+        :   
+        (  
+            <TouchableOpacity
+                onPress={() => removeItem(_id)}
+                style={noteDelete}
+            >
+                <FontAwesome name='trash' size={32} color='#e91e63' />
+            </TouchableOpacity>
+        )
 
 
     return (
@@ -21,17 +39,12 @@ const Note = ({data, actions: {complete}}) => {
                 {title}
             </Text>
             <TouchableOpacity
-                onPress={() => console.log('Editing', title)}
+                onPress={() => editItem(data)}
                 style={noteEdit}
             >
                 <EvilIcons name="pencil" size={42} color="#2980b9" />
             </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => complete(_id)}
-                style={noteDelete}
-            >
-                <FontAwesome name={iconName} size={32} color='#e91e63' />
-            </TouchableOpacity>
+            {actionButton}
         </View>
     )
 }

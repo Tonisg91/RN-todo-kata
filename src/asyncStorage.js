@@ -1,12 +1,26 @@
 import AsyncStorage from '@react-native-community/async-storage'
-import { Alert } from 'react-native'
 
 const storeTask = async (value) => {
     try {
-        const jsonValue = JSON.stringify(value)
+        const currentData = await getData('@todoTasks', [])
+        const updatedArr = currentData ? [...currentData, value] : value
+        const jsonValue = JSON.stringify(updatedArr)
         await AsyncStorage.setItem('@todoTasks', jsonValue)
     } catch (e) {
         console.log(e)
+    }
+}
+
+const editAndStoreTask = async (value) => {
+    try {
+        const currentData = await getData('@todoTasks', [])
+        const jsonValue = JSON.stringify(currentData.map(x => {
+            if (x._id === value._id) return value
+            return x
+        }))
+        await AsyncStorage.setItem('@todoTasks', jsonValue)
+    } catch (error) {
+        
     }
 }
 
@@ -19,4 +33,4 @@ const getData = async (key, defaultVal) => {
     }
 }
 
-export { storeTask, getData }
+export { storeTask, getData, editAndStoreTask }

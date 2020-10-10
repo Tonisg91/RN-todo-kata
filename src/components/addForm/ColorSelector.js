@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     box: {
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
     }
 })
 
